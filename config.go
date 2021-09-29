@@ -1,6 +1,9 @@
 package main
 
-import "github.com/BurntSushi/toml"
+import (
+	"github.com/BurntSushi/toml"
+	"sort"
+)
 
 type config struct {
 	ListenOn string
@@ -20,7 +23,12 @@ var Config = config{
 	Formats: []string{"image/jpeg", "image/png", "image/webp"},
 } // Default config, may be overwritten by toml file,
 
+
 func loadConfig() (err error) {
 	_, err = toml.DecodeFile("config.toml", &Config)
+
+	if Config.Formats != nil {
+		sort.Strings(Config.Formats)
+	}
 	return
 }

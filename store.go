@@ -3,10 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/gofiber/fiber/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/utils"
 	"io"
 	"pictrick/mongo"
+	"sort"
 )
 
 func Store(c *fiber.Ctx) error  {
@@ -24,6 +25,10 @@ func Store(c *fiber.Ctx) error  {
 	contentType := utils.CopyString(file.Header.Get("Content-Type"))
 	if contentType == "" {
 		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	if Config.Formats[sort.SearchStrings(Config.Formats, contentType)] != contentType {
+		return c.SendStatus(fiber.StatusUnsupportedMediaType)
 	}
 
 	f, err := file.Open()

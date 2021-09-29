@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"log"
 	"pictrick/mongo"
 )
@@ -12,8 +13,10 @@ func Get(c *fiber.Ctx) error  {
 		return c.SendStatus(fiber.StatusNoContent)
 	}
 
-	var id [16]byte
-	copy(id[:], param)
+	id, err := uuid.Parse(param)
+	if err != nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
 
 	payload, contentType, err := mongo.GetFilePayload(id)
 	if err != nil {

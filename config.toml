@@ -1,7 +1,4 @@
 MaxFileSize = 1_000_000
 Formats = [ "image/jpeg", "image/png", "image/webp" ]
 
-ListenOn = ":443"
-TLS = true
-TLSPem = "/etc/letsencrypt/live/pic.sort-me.org/fullchain.pem"
-TLSKey = "/etc/letsencrypt/live/pic.sort-me.org/privkey.pem"
+ListenOn = ":1234"

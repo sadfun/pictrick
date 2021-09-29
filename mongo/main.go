@@ -3,6 +3,7 @@ package mongo
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -67,10 +68,12 @@ func SaveFile(payload []byte, contentType, ip string) (uuid.UUID, error) {
 
 func GetFilePayload(id uuid.UUID) ([]byte, string, error) {
 	var filter = struct {
-		_id uuid.UUID `bson:"_id"`
+		Id uuid.UUID `bson:"_id"`
 	}{
-		_id: id,
+		Id: id,
 	}
+	fmt.Println(filter)
+	fmt.Println(id.String())
 
 	var data struct {
 		Type string              `bson:"type"`

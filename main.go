@@ -3,14 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/gofiber/fiber/middleware/cors"
-	"github.com/gofiber/fiber/middleware/logger"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"io/ioutil"
 	"log"
 	"os"
 	"pictrick/mongo"
+	"time"
 )
 
 const version = "0.0.0"
@@ -36,7 +37,7 @@ func main() {
 
 	app.Use(limiter.New(limiter.Config{
 		Max:          1,
-		Expiration:   0,
+		Expiration:   1 * time.Second,
 		LimitReached: func(c *fiber.Ctx) error {
 			return c.SendStatus(fiber.StatusTooManyRequests)
 		},
